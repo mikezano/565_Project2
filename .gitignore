@@ -161,6 +161,7 @@ $RECYCLE.BIN/
 
 # Mac desktop service store files
 .DS_Store
+/packages
 /src/packages
 /src/Web/Content/Site.css
 /src/Web/Content/Site.css.map
