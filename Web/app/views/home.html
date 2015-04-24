@@ -1,0 +1,18 @@
+﻿<h2>Restful Services</h2>
+
+<div class="btn-group" role="group">
+    <button ng-click="vm.runCase($event)" class="btn btn-default">Case 1: Happy</button>
+    <button ng-click="vm.runCase($event)" class="btn btn-default">Case 2: Abandoned</button>
+    <button ng-click="vm.runCase($event)" class="btn btn-default">Case 3: Forgotten</button>
+    <button ng-click="vm.runCase($event)" class="btn btn-default">Case 4: Bad</button>
+    <button ng-click="vm.runCase($event)" class="btn btn-default">Case 5: Bad Id</button>
+</div>
+
+<hr/>
+
+<ul class="list-group">
+    <li class="list-group-item" ng-repeat="output in vm.output">
+        <div>{{output.message}}</div>
+        <pre ng-if="output.appealState">{{output.appealState | json}}</pre>
+    </li>
+</ul>
