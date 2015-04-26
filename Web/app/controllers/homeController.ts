@@ -39,12 +39,18 @@ module Web.Client {
             //Get your grade
             this.as.getGrade(1).then((result: any) => {
 
+
                 //Create the appeal based off the retrieved grade
-                this.appeal = Models.Appeal.parse(result);
-                this.appeal.title = "APPEAL for A";
-                this.appeal.comments = [];
-                this.appeal.comments.push("Grade should be bumped up to A");
-                this.appeal.state = "Created";
+                var grade = Models.Grade.parse(result.Grade);
+
+                //Create appeal
+                this.appeal = Models.Appeal.empty();
+                this.appeal.Grade = grade;
+                this.appeal.ActionUri = result.ActionUri;
+                this.appeal.Title = "APPEAL for A";
+                this.appeal.Comments = [];
+                this.appeal.Comments.push("Grade should be bumped up to A");
+                this.appeal.State = "Created";
 
                 this.output.push({ message: 'Grade appeal is being created', appealState: this.appeal });
                 return this.as.createAppeal(this.appeal);
@@ -53,16 +59,17 @@ module Web.Client {
 
                 //print out state of previous creation
                 this.output.push({ message: 'Grade appeal created with response code: ' + result.status, appealState: null });
-
                 //Assume professor then visits site and gets the appeal
                 return this.as.getAppeal(2);
-            }).then((result: any) => {
+
+                }).then((result: any) => {
+
+                this.appeal = Models.Appeal.parse(result.data);
                 //Professor is now working with the appeal
                 this.output.push({ message: 'Grade appeal is being reviewed', appealState: this.appeal });
 
                 //Professor looks at grade on client side and updates appeal state
-                this.appeal = Models.Appeal.parse(result.data);
-                this.appeal.state = "Approved";
+                this.appeal.State = "Approved";
 
                 //Go to server to 'save' the appeal
                 return this.as.updateAppeal(this.appeal);
@@ -74,7 +81,7 @@ module Web.Client {
                 //Appeal is successful
                 this.appeal = Models.Appeal.parse(result.data);
 
-                if (this.appeal.state == "Approved")
+                if (this.appeal.State == "Approved")
                     this.output.push({ message: "Grade appeal has been accepted", appealState: this.appeal });
             });
         }
@@ -84,11 +91,11 @@ module Web.Client {
             this.as.getGrade(1).then((result: any) => {
 
                 //Create the appeal based off the retrieved grade
-                this.appeal = Models.Appeal.parse(result);
-                this.appeal.title = "APPEAL for A";
-                this.appeal.comments = [];
-                this.appeal.comments.push("Grade should be bumped up to A");
-                this.appeal.state = "Created";
+                this.appeal.Grade = Models.Grade.parse(result);
+                this.appeal.Title = "APPEAL for A";
+                this.appeal.Comments = [];
+                this.appeal.Comments.push("Grade should be bumped up to A");
+                this.appeal.State = "Created";
                 this.output.push({ message: 'Grade appeal is being created', appealState: this.appeal });
                 return this.as.createAppeal(this.appeal);
 
@@ -102,7 +109,7 @@ module Web.Client {
 
                 //Student decides to abort appeal
                 this.appeal = Models.Appeal.parse(result.data);
-                this.appeal.state = "Cancel";
+                this.appeal.State = "Cancel";
                 this.output.push({ message: 'Grade appeal is being aborted', appealState: this.appeal });
                 return this.as.updateAppeal(this.appeal);
 
@@ -117,6 +124,11 @@ module Web.Client {
                 //Confirming grade appeal has been aborted
                 this.appeal = Models.Appeal.parse(result.data);
                 this.output.push({ message: 'Grade appeal has been aborted', appealState: this.appeal });
+                return this.as.deleteAppeal(this.appeal);
+
+            }).then((result: any) => {
+
+                this.output.push({message: 'Grade appeal has been deleted', appealState:null});
             });
         }
 
@@ -125,28 +137,28 @@ module Web.Client {
             this.as.getGrade(1).then((result: any) => {
 
                 //Create the appeal based off the retrieved grade
-                this.appeal = Models.Appeal.parse(result);
-                this.appeal.title = "APPEAL for A";
-                this.appeal.comments = [];
-                this.appeal.comments.push("Grade should be bumped up to A");
-                this.appeal.state = "Created";
+                this.appeal.Grade = Models.Grade.parse(result);
+                this.appeal.Title = "APPEAL for A";
+                this.appeal.Comments = [];
+                this.appeal.Comments.push("Grade should be bumped up to A");
+                this.appeal.State = "Created";
                 this.output.push({ message: 'Grade appeal is being created', appealState: this.appeal });
                 return this.as.createAppeal(this.appeal);
 
             }).then((result: any) => {
 
                 //Student then visits site to get appeal status and notices that  along period of time has elapsed
-                this.output.push({ message: 'Grade appeal retreived with status code: ' + result.status, appealState: null });
+                this.output.push({ message: 'Student revisits site to look at appeal state.  status code: ' + result.status, appealState: null });
                 return this.as.getAppeal(2);
 
             }).then((result: any) => {
 
                 //Student follows up on appeal which has not been responded to
                 this.appeal = Models.Appeal.parse(result.data);
-                this.appeal.state = "Follow Up";
-                this.appeal.comments.push("Have not heard back in a week, just following up");
-                this.appeal.title += " (follow up)";
-                this.output.push({ message: 'Grade appeal is followed up', appealState: this.appeal });
+                this.appeal.State = "Follow Up";
+                this.appeal.Comments.push("Have not heard back in a week, just following up");
+                this.appeal.Title += " (follow up)";
+                this.output.push({ message: 'Grade appeal is followed up with new comment', appealState: this.appeal });
                 return this.as.updateAppeal(this.appeal);
 
             });
@@ -158,12 +170,12 @@ module Web.Client {
             this.as.getGrade(1).then((result: any) => {
 
                 //Create the appeal based off the retrieved grade
-                this.appeal = Models.Appeal.parse(result);
-                this.appeal.title = "APPEAL for A";
-                this.appeal.comments = [];
-                this.appeal.comments.push("Grade should be bumped up to A");
-                this.appeal.state = "Created";
-                this.appeal.actionUri = "/fakeuri"; //simulate a bad uri
+                this.appeal.Grade = Models.Grade.parse(result);
+                this.appeal.Title = "APPEAL for A";
+                this.appeal.Comments = [];
+                this.appeal.Comments.push("Grade should be bumped up to A");
+                this.appeal.State = "Created";
+                this.appeal.ActionUri = "/fakeuri"; //simulate a bad uri
 
                 this.output.push({ message: 'Grade appeal is being created', appealState: this.appeal });
                 return this.as.createAppeal(this.appeal);
@@ -186,11 +198,11 @@ module Web.Client {
             this.as.getGrade(1).then((result: any) => {
 
                 //Create the appeal based off the retrieved grade
-                this.appeal = Models.Appeal.parse(result);
-                this.appeal.title = "APPEAL for A";
-                this.appeal.comments = [];
-                this.appeal.comments.push("Grade should be bumped up to A");
-                this.appeal.state = "Created";
+                this.appeal.Grade = Models.Grade.parse(result);
+                this.appeal.Title = "APPEAL for A";
+                this.appeal.Comments = [];
+                this.appeal.Comments.push("Grade should be bumped up to A");
+                this.appeal.State = "Created";
 
                 this.output.push({ message: 'Grade appeal is being created', appealState: this.appeal });
                 return this.as.createAppeal(this.appeal);
@@ -200,17 +212,12 @@ module Web.Client {
                 //print out state of previous creation
                 this.output.push({ message: 'Grade appeal created with response code: ' + result.status, appealState: null });
 
-                //Assume professor then visits site and gets the appeal
-                return this.as.getAppeal(1);
+                //Assume student comes back to the site and forgets retrieves the appeal with a bad id
+                return this.as.getAppeal(1); //should be 2
 
-            }).catch((result) => {
+            }).then((result) => {
                 this.output.push({
                     message: 'Could not find correct appeal.  Response code: ' + result.status, appealState: result
-                });
-            }).catch((result) => {
-                this.output.push({
-                    message: 'Bad Uri sent.  Response code: ' + result.status,
-                    appealState: { status: result.status, config: result.config }
                 });
             });
         }

@@ -13,13 +13,13 @@ var Services;
             return this.$http.get("api/Appeals?id=" + id);
         };
         AppealsService.prototype.createAppeal = function (appeal) {
-            return this.$http.post(appeal.actionUri, JSON.stringify(appeal));
+            return this.$http.post(appeal.ActionUri, JSON.stringify(appeal));
         };
         AppealsService.prototype.updateAppeal = function (appeal) {
-            return this.$http.put(appeal.actionUri, JSON.stringify(appeal));
+            return this.$http.put(appeal.ActionUri, JSON.stringify(appeal));
         };
         AppealsService.prototype.deleteAppeal = function (appeal) {
-            return this.$http.delete(appeal.actionUri, JSON.stringify(appeal));
+            return this.$http.delete(appeal.ActionUri + '?id=' + appeal.Id);
         };
         AppealsService.$inject = ["$http"];
         return AppealsService;

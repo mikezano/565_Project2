@@ -13,15 +13,15 @@
             return this.$http.get("api/Appeals?id="+id);                
         }
         public createAppeal(appeal: Models.Appeal): ng.IPromise<any> {
-            return this.$http.post(appeal.actionUri, JSON.stringify(appeal) );
+            return this.$http.post(appeal.ActionUri, JSON.stringify(appeal) );
         }
 
         public updateAppeal(appeal: Models.Appeal): ng.IPromise<any> {
-            return this.$http.put(appeal.actionUri, JSON.stringify(appeal));
+            return this.$http.put(appeal.ActionUri, JSON.stringify(appeal));
         }
 
         public deleteAppeal(appeal: Models.Appeal): ng.IPromise<any> {
-            return this.$http.delete(appeal.actionUri, JSON.stringify(appeal));
+            return this.$http.delete(appeal.ActionUri + '?id=' + appeal.Id);
         }
     }
 

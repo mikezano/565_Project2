@@ -123,6 +123,8 @@
     <Content Include="Scripts\linq.js" />
     <Content Include="Scripts\linq.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\xml2json.js" />
+    <Content Include="Scripts\xml2json_original.js" />
     <Content Include="Web.config" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
@@ -172,6 +174,7 @@
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\linq\linq.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\xml2json\xml2json.d.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

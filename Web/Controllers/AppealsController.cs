@@ -14,36 +14,49 @@ namespace Web.Controllers
         public static Appeal appeal { get; set; }
 
         // GET api/<controller>/5
-        public Appeal Get(int id)
+        public HttpResponseMessage Get(int id)
         {
+            var response = Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new ObjectContent(typeof(Appeal), id == 2 ? AppealsController.appeal : null, new AppealFormatter());
             //Assume a database call happens
-            return id == 2 ? AppealsController.appeal : null;
+            return response;
         }
-        public Appeal Post(Appeal appeal)
+        public HttpResponseMessage Post(Appeal appeal)
         {
             //the equivalent to saving it to a database
             AppealsController.appeal = appeal;
 
             //updating properties
             AppealsController.appeal.Id = 2;
-            AppealsController.appeal.ActionUri = "api/Appeals/";
+            AppealsController.appeal.ActionUri = "api/Appeals";
+
+            //creating the 'application/vnd.cse564-appeals+xml' response
+            var response = Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new ObjectContent(appeal.GetType(), AppealsController.appeal, new AppealFormatter());
 
             //return created object
-            return AppealsController.appeal;
+            return response;
         }
-        public Appeal Put(Appeal appeal)
+        public HttpResponseMessage Put(Appeal appeal)
         {
             AppealsController.appeal = appeal;
-            AppealsController.appeal.ActionUri = "api/Appeals/";
-            return AppealsController.appeal;
+            AppealsController.appeal.ActionUri = "api/Appeals";
+
+            //creating the 'application/vnd.cse564-appeals+xml' response
+            var response = Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new ObjectContent(appeal.GetType(), AppealsController.appeal, new AppealFormatter());
+
+            return response;
         }
-        public void Delete(Appeal appeal)
+        [HttpDelete]
+        public void Delete(int id)
         {
             /* 
              * Remove from database
              * db.Delete(appeal)
              */
             //no need to return anything
+            return;
         }
     }
 }

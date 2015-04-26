@@ -12,6 +12,8 @@ namespace Web
         {
             configuration.Routes.MapHttpRoute("API Default", "api/{controller}/{id}",
                 new { id = RouteParameter.Optional });
+
+            configuration.Formatters.Add(new Web.Models.AppealFormatter());
         }
     }
 }
